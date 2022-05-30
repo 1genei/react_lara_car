@@ -1,24 +1,40 @@
-import logo from './logo.svg';
-import './App.css';
+import Nav from './pages/layouts/nav'
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React  
-        </a>
-      </header>
-    </div>
+    <div className="container" >
+      
+      <div className="row" > 
+        <div className="col-12" style={{border:'2px solid grey'}}>
+        
+        <Nav/>
+        
+        </div>
+        
+        <div className="col-2" style={{border:'2px solid grey'}}>
+          2 of 2
+        </div>
+        <div className="col-4" style={{border:'2px solid grey'}}>
+          2 of 2
+        </div>
+      </div>
+      
+      
+      <div className="row" style={{border:'5px solid yellow'}}>
+        <div className="col">
+          1 of 3
+        </div>
+        <div className="col">
+          2 of 3
+        </div>
+        <div className="col">
+          3 of 3
+        </div>
+      </div>
+      
+      
+  </div>
   );
 }
 
