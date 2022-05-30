@@ -32,4 +32,34 @@ class CarController extends Controller
         ]);
     }
     
+    public function show ($car_id){
+    
+        $car = Car::where('id', '=', $car_id)->first();
+        
+        return Response()->json([
+            "car" => $car,
+            "status" => 200
+        ]);
+    
+    }
+    
+    public function update (Request $request, $car_id){
+    
+        $car = Car::where('id', '=', $car_id)->first();
+        
+        $car->brand = $request->marque; 
+        $car->modele = $request->modele; 
+        $car->type = $request->type; 
+        $car->kilometrage = $request->kilometrage; 
+        
+        
+        $car->update();
+        
+        return Response()->json([
+            "message" => "Voiture modifiée",
+            "status" => 200
+        ]);
+    
+    }
+    
 }

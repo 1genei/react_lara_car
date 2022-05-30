@@ -25,7 +25,7 @@ function AddCar() {
     })
     
     
-    console.log(car);
+
   }
 
 

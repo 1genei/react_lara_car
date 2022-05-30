@@ -20,7 +20,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('cars', [CarController::class, 'index']);
+Route::get('car/{car_id}', [CarController::class, 'show']);
 Route::post('car', [CarController::class, 'store']);
+Route::put('car/{car_id}', [CarController::class, 'update']);
 
 Route::get('users/{id}', function ($id) {
     
