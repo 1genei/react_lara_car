@@ -47,18 +47,18 @@ function Register() {
                 <span id='message' className='text-danger'> </span>
                 <div className="mb-3">
                 <label htmlFor="disabledTextInput" className="form-label">Nom de famille</label>
-                <input type="text" id="registerName" className="form-control" name="name" required/>
+                <input type="text" id="registerName" className="form-control" name="name" />
                 <span className='text-danger' id='error_name'> </span>
                 </div>
                 <div className="mb-3">
                 <label htmlFor="disabledTextInput" className="form-label">Adresse mail</label>
-                <input type="text" id="registerMail" className="form-control" name="email" required/>
+                <input type="text" id="registerMail" className="form-control" name="email" />
                 <span className='text-danger' id='error_email'> </span>
                 
                 </div>
                 <div className="mb-3">
                 <label htmlFor="disabledTextInput" className="form-label">Mot de passe</label>
-                <input type="password" autoComplete="on" id="registerPassword" className="form-control" name="password" required/>
+                <input type="password" autoComplete="on" id="registerPassword" className="form-control" name="password" />
                 <span className='text-danger' id='error_password'> </span>
                 
                 <button type="submit" className="btn btn-primary btn-lg mt-3 mb-3">S'inscrire</button>
