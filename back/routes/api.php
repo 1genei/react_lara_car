@@ -25,6 +25,7 @@ Route::get('cars', [CarController::class, 'index']);
 Route::get('car/{car_id}', [CarController::class, 'show']);
 Route::post('car', [CarController::class, 'store']);
 Route::put('car/{car_id}', [CarController::class, 'update']);
+Route::delete('delete/{car_id}', [CarController::class, 'delete']);
 
 //Routes pour login/register
 Route::post('register', [UserController::class, 'register']);
