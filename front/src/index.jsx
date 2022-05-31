@@ -8,8 +8,6 @@ import EditCar from './pages/car/edit';
 import Login from './pages/auth/login';
 import Register from './pages/auth/register';
 
-
-     
   
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

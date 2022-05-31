@@ -19,8 +19,6 @@ function Register() {
     axios.post('http://127.0.0.1:8000/api/register', newUser).then( (res) => {
     
       if(res.data.status === 400){
-      
-      console.log(res.data.error.name );
         document.getElementById('error_name').innerText = res.data.error.name ? res.data.error.name : ""   
         document.getElementById('error_email').innerText = res.data.error.email ? res.data.error.email : ""   
         document.getElementById('error_password').innerText = res.data.error.password ? res.data.error.password : ""   
@@ -29,7 +27,6 @@ function Register() {
       if(res.data.status === 200){
         document.getElementById('message').innerText = res.data.message  
         navigate('/')
-      
       }
     })
 
@@ -50,7 +47,7 @@ function Register() {
                 <span id='message' className='text-danger'> </span>
                 <div className="mb-3">
                 <label htmlFor="disabledTextInput" className="form-label">Nom de famille</label>
-                <input type="text" id="resgisterName" className="form-control" name="name" required/>
+                <input type="text" id="registerName" className="form-control" name="name" required/>
                 <span className='text-danger' id='error_name'> </span>
                 </div>
                 <div className="mb-3">

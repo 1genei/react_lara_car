@@ -12,7 +12,6 @@ class UserController extends Controller
     //
     public function register(Request $request) {
     
-    
         $validator = Validator::make($request->all(),[
             "name" => "required|string",
             "email" => "required|email|unique:users",
@@ -23,7 +22,6 @@ class UserController extends Controller
             return Response()->json([
                 "error" => $validator->errors(),
                 "status" => 400
-
             ]);
         }
         

@@ -3,12 +3,64 @@ import axios from 'axios';
 import {useEffect, useState} from 'react';
 import { Link } from 'react-router-dom';
 
+import Swal from 'sweetalert2';
 
 
 function IndexCar() {
-
     const [cars, setCars] = useState([]);
-  
+
+    function deleteHandle(e){
+
+      e.preventDefault();
+
+      // On réccupère l'élément sur lequel on clique
+      const ligne = e.currentTarget;
+
+      const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+          confirmButton: 'btn btn-success',
+          cancelButton: 'btn btn-danger'
+        }, 
+        buttonsStyling: false
+      })
+      
+      swalWithBootstrapButtons.fire({
+        title: 'êtes vous sûr ?',
+        text: "Action irrévocable",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Oui',
+        cancelButtonText: 'Non',
+        reverseButtons: true
+      }).then((result) => {
+        if (result.isConfirmed) {
+
+          axios.delete('http://127.0.0.1:8000/api/delete/'+e.target.id).then( (res) => {
+
+            if(res.data.status === 200){
+                
+              swalWithBootstrapButtons.fire(
+                'Supprimé!',
+                '',
+                'success'
+              )
+              ligne.closest('tr').remove();
+                
+            }
+        })
+
+        } else if (
+          result.dismiss === Swal.DismissReason.cancel
+        ) {
+          swalWithBootstrapButtons.fire(
+            'Annulé',
+            'Non supprimé',
+            'error'
+          )
+        }
+      })
+    }
+
     useEffect( () => {
     
         axios.get('http://127.0.0.1:8000/api/cars').then( (res) => {
@@ -35,29 +87,26 @@ function IndexCar() {
         <table className="table mt-3">
             <thead>
               <tr>
-                <th scope="col">Marque</th>
-                <th scope="col">Modèle</th>
-                <th scope="col">Type</th>
-                <th scope="col">Kilométrage</th>
-                <th scope="col">Modifier</th>
-                <th scope="col">Supprimer</th>
+                <th className='text-primary' scope="col">Marque</th>
+                <th className='text-primary' scope="col">Modèle</th>
+                <th className='text-primary' scope="col">Type</th>
+                <th className='text-primary' scope="col">Kilométrage</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
               </tr>
             </thead>
             <tbody>
             
             {
-              cars.map( (car ) => (
-              
+              cars.map( (car ) => (  
                 <tr key={car.id}>
-                <th scope="row">{car.brand}</th>
-                <td>{car.modele}</td>
-                <td>{car.type}</td>
-                <td>{car.kilometrage}</td>
-                <td><Link type="button" to={"/edit-car/"+car.id} className="btn btn-success btn-sm">Modifier</Link></td>
-                <td><button type="button" className="btn btn-danger btn-sm">Supprimer</button></td>
-              </tr>
-              
-              
+                  <th scope="row">{car.brand}</th>
+                  <td>{car.modele}</td>
+                  <td>{car.type}</td>
+                  <td>{car.kilometrage}</td>
+                  <td><Link type="button" to={"/edit-car/"+car.id} className="btn btn-success btn-sm">Modifier</Link></td>
+                  <td><button type="button" id={car.id} onClick={deleteHandle} className="btn btn-danger btn-sm">Supprimer</button></td>
+                </tr>
               ))
             }
       
