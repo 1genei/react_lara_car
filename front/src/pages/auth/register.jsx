@@ -5,6 +5,8 @@ import {useNavigate} from 'react-router-dom';
 function Register() {
 
   const navigate = useNavigate();
+  
+  
   const handleSubmit = (e) =>{
   
     e.preventDefault();
@@ -16,12 +18,25 @@ function Register() {
     
     axios.post('http://127.0.0.1:8000/api/register', newUser).then( (res) => {
     
+      if(res.data.status === 400){
+      
+      console.log(res.data.error.name );
+        document.getElementById('error_name').innerText = res.data.error.name ? res.data.error.name : ""   
+        document.getElementById('error_email').innerText = res.data.error.email ? res.data.error.email : ""   
+        document.getElementById('error_password').innerText = res.data.error.password ? res.data.error.password : ""   
+      }
+    
       if(res.data.status === 200){
-        document.getElementById('message').innerText = res.data.message  }
+        document.getElementById('message').innerText = res.data.message  
         navigate('/')
+      
+      }
     })
 
   }
+  
+  
+  
 
   return (
     <div className="container mt-5" >
@@ -29,21 +44,26 @@ function Register() {
         <div className="col-12" style={{border:'2px solid grey'}}>
         
         <Nav/>
-        <form onSubmit={handleSubmit}>
-            <fieldset>
+        <form onSubmit={handleSubmit} style={{display:'flex', justifyContent:'center'}}>
+            <fieldset >
                 <legend>Inscription</legend>
                 <span id='message' className='text-danger'> </span>
                 <div className="mb-3">
                 <label htmlFor="disabledTextInput" className="form-label">Nom de famille</label>
                 <input type="text" id="resgisterName" className="form-control" name="name" required/>
+                <span className='text-danger' id='error_name'> </span>
                 </div>
                 <div className="mb-3">
                 <label htmlFor="disabledTextInput" className="form-label">Adresse mail</label>
                 <input type="text" id="registerMail" className="form-control" name="email" required/>
+                <span className='text-danger' id='error_email'> </span>
+                
                 </div>
                 <div className="mb-3">
                 <label htmlFor="disabledTextInput" className="form-label">Mot de passe</label>
                 <input type="password" autoComplete="on" id="registerPassword" className="form-control" name="password" required/>
+                <span className='text-danger' id='error_password'> </span>
+                
                 <button type="submit" className="btn btn-primary btn-lg mt-3 mb-3">S'inscrire</button>
                 </div>
             </fieldset>
