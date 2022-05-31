@@ -9,7 +9,7 @@ function AddCar() {
   const navigate = useNavigate();
   const handleSubmit = (e) =>{
   
-    e.preventDefault()
+    e.preventDefault();
     const car = {
       marque : e.target.marque.value ,
       modele : e.target.modele.value,
@@ -19,12 +19,10 @@ function AddCar() {
     
     axios.post('http://127.0.0.1:8000/api/car', car).then( (res) => {
     
-      if(res.data.status == 200){
+      if(res.data.status === 200){
         document.getElementById('message').innerText = res.data.message  }
         navigate('/')
     })
-    
-    
 
   }
 
@@ -43,15 +41,15 @@ function AddCar() {
                     <span id='message' className='text-danger'> </span>
                     <div className="mb-3">
                     <label htmlFor="disabledTextInput" className="form-label">Marque</label>
-                    <input type="text" id="disabledTextInput" className="form-control" name="marque"/>
+                    <input type="text" id="disabledTextInput" className="form-control" name="marque" required/>
                     </div>
                     <div className="mb-3">
                     <label htmlFor="disabledTextInput" className="form-label">Modèle</label>
-                    <input type="text" id="disabledTextInput" className="form-control" name="modele"/>
+                    <input type="text" id="disabledTextInput" className="form-control" name="modele" required/>
                     </div>
                     <div className="mb-3">
                         <label htmlFor="disabledSelect" className="form-label">Type</label>
-                        <select id="disabledSelect" name='type' className="form-select">
+                        <select id="disabledSelect" name='type' className="form-select" required>
                             <option value="SUV">SUV</option>
                             <option value="Compacte">Compacte</option>
                             <option value="Familiale">Familiale</option>
@@ -61,11 +59,11 @@ function AddCar() {
                     </div>
                     <div className="mb-3">
                     <label htmlFor="disabledTextInput" className="form-label">Kilométrage</label>
-                    <input type="number" step="any" id="disabledTextInput" className="form-control" name="kilometrage"/>
+                    <input type="number" step="any" id="disabledTextInput" className="form-control" name="kilometrage" required/>
                     </div>
                     
                    
-                    <button type="submit" className="btn btn-primary btn-lg mt-5 mb-5">Submit</button>
+                    <button type="submit" className="btn btn-primary btn-lg mt-5 mb-5">Ajouter</button>
                 </fieldset>
             </form>
         </div>

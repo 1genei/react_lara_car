@@ -12,15 +12,22 @@ function EditCar() {
   
   
   const [car, setCar] = useState([]);
-  
+
   
   useEffect( () => {
   
     axios.get('http://127.0.0.1:8000/api/car/'+param.id).then( (res) => {
     
-      if(res.data.status == 200){
-         console.log(res.data.car);
-         setCar(res.data.car);
+      if(res.data.status === 200){ 
+         setCar(
+          {
+            marque : res.data.car.brand ,
+            modele : res.data.car.modele,
+            type : res.data.car.type,
+            kilometrage : res.data.car.kilometrage
+          }
+         );
+        //  setCar(res.data.car); //ne marche pas car brand != marque
       }
     });
     
@@ -28,7 +35,7 @@ function EditCar() {
   
   const handleSubmit = (e) =>{
   
-    e.preventDefault()
+    e.preventDefault();
     const car = {
       marque : e.target.marque.value ,
       modele : e.target.modele.value,
@@ -36,14 +43,22 @@ function EditCar() {
       kilometrage : e.target.kilometrage.value
     };
     
-    axios.post('http://127.0.0.1:8000/api/car'+param.id, car).then( (res) => {
+    axios.put('http://127.0.0.1:8000/api/car/'+param.id, car).then( (res) => {
     
-      if(res.data.status == 200){
+      if(res.data.status === 200){
         document.getElementById('message').innerText = res.data.message  }
         navigate('/')
     })
     
   
+  }
+
+  const handleInput = (e) => {
+
+   
+    const {name, value} = e.target;
+    setCar({...car, [name]:value});
+
   }
 
 
@@ -61,15 +76,15 @@ function EditCar() {
                     <span id='message' className='text-danger'> </span>
                     <div className="mb-3">
                     <label htmlFor="disabledTextInput" className="form-label">Marque</label>
-                    <input type="text" id="disabledTextInput" className="form-control" value={car.brand} name="marque"/>
+                    <input type="text" id="disabledTextInput" className="form-control" value={car.marque ?? ''} onChange={handleInput} name="marque" required/>
                     </div>
                     <div className="mb-3">
                     <label htmlFor="disabledTextInput" className="form-label">Modèle</label>
-                    <input type="text" id="disabledTextInput" className="form-control"  value={car.modele}  name="modele"/>
+                    <input type="text" id="disabledTextInput" className="form-control"  value={car.modele ?? ''}  onChange={handleInput} name="modele" required/>
                     </div>
                     <div className="mb-3">
                         <label htmlFor="disabledSelect" className="form-label">Type</label>
-                        <select id="disabledSelect" name='type'  value={car.type} className="form-select">
+                        <select id="disabledSelect" onChange={handleInput} name='type'  value={car.type ?? ''} className="form-select" required>
                             <option value="SUV">SUV</option>
                             <option value="Compacte">Compacte</option>
                             <option value="Familliale">Familliale</option>
@@ -79,11 +94,11 @@ function EditCar() {
                     </div>
                     <div className="mb-3">
                     <label htmlFor="disabledTextInput" className="form-label">Kilométrage</label>
-                    <input type="number" step="any" id="disabledTextInput" className="form-control"  value={car.kilometrage} name="kilometrage"/>
+                    <input type="number" step="any" id="disabledTextInput" className="form-control"  value={car.kilometrage ?? ''} onChange={handleInput} name="kilometrage" required/>
                     </div>
                     
                    
-                    <button type="submit" className="btn btn-primary btn-lg mt-5 mb-5">Submit</button>
+                    <button type="submit" className="btn btn-primary btn-lg mt-5 mb-5">Modifier</button>
                 </fieldset>
             </form>
         </div>
