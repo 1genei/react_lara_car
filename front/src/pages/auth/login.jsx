@@ -14,15 +14,17 @@ function Login() {
       password : e.target.password.value
     };
     
-    /*axios.post('http://127.0.0.1:8000/api/car', car).then( (res) => {
-    
-      if(res.data.status === 200){
-        document.getElementById('message').innerText = res.data.message  }
+    axios.post('http://127.0.0.1:8000/api/login', user).then( (res) => {
+      if(res.data.status === 401){
+        document.getElementById('message').innerText = res.data.message
+        document.getElementById('loginMail').value = ""
+        document.getElementById('loginPassword').value = ""
+      }
+      if(res.data.status === 200) {
+        console.log(res.data.token)
         navigate('/')
-    })*/
-    
-    
-
+      }
+    })
   }
 
   return (

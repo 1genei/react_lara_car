@@ -43,8 +43,8 @@ class UserController extends Controller
         if(!Auth::attempt($request->only(['email', 'password']))){
         
             return Response()->json([
-                "message" => "email ou mot de passe incorrecte",
-                "status" =>  "401"
+                "message" => "Email ou mot de passe incorrect",
+                "status" =>  401
             
             ]);
         }
