@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Auth;
 
 class UserController extends Controller
 {
@@ -35,5 +36,32 @@ class UserController extends Controller
             "message" => "Profil créé",
             "status" => 200
         ], 200);
+    }
+    
+    public function login (Request $request) {
+        
+        if(!Auth::attempt($request->only(['email', 'password']))){
+        
+            return Response()->json([
+                "message" => "email ou mot de passe incorrecte",
+                "status" =>  "401"
+            
+            ]);
+        }
+        
+        
+        $user = Auth::user();
+            
+        $token = $user->createToken('token')->plainTextToken;
+
+        return Response()->json([            
+            "status" => 200,
+            "token" => $token,
+            "user" => $user
+        ]);
+        
+        
+        
+    
     }
 }

@@ -29,6 +29,7 @@ Route::delete('delete/{car_id}', [CarController::class, 'delete']);
 
 //Routes pour login/register
 Route::post('register', [UserController::class, 'register']);
+Route::post('login', [UserController::class, 'login']);
 
 
 Route::get('users/{id}', function ($id) {
