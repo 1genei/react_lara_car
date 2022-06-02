@@ -1,12 +1,15 @@
 import Nav from '../layouts/nav';
 import axios from 'axios';
 
+import {useEffect} from 'react';
 import {useNavigate} from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 function AddCar() {
 
- 
   const navigate = useNavigate();
+  const auth  = useSelector( (state) =>state.auth);
+
   const handleSubmit = (e) =>{
   
     e.preventDefault();
@@ -33,10 +36,14 @@ function AddCar() {
 
   }
 
+  useEffect( () => {
+    if (!auth.user) {
+      navigate('/login')
+    }    
+  }, []);
 
   return (
-    <div className="container mt-5" >
-      
+    <div className="container mt-5"> 
       <div className="row" > 
         <div className="col-12" style={{border:'2px solid grey'}}>
         

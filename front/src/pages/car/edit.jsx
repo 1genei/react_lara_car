@@ -3,12 +3,14 @@ import axios from 'axios';
 
 import {useNavigate, useParams} from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 function EditCar() {
 
  
   const navigate = useNavigate();  
   const param = useParams();
+  const auth  = useSelector( (state) =>state.auth);
   
   
   const [car, setCar] = useState([]);
@@ -65,6 +67,12 @@ function EditCar() {
     setCar({...car, [name]:value});
 
   }
+
+  useEffect( () => {
+    if (!auth.user) {
+      navigate('/login')
+    }    
+  }, []);
 
 
   return (

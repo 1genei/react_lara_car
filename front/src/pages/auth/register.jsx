@@ -1,11 +1,16 @@
 import Nav from '../layouts/nav'
 import axios from 'axios';
 import {useNavigate} from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+
+import {useEffect} from 'react';
+import { useSelector } from 'react-redux';
 
 function Register() {
 
   const navigate = useNavigate();
-  
+  const dispatch  = useDispatch();
+  const auth  = useSelector( (state) =>state.auth);
   
   const handleSubmit = (e) =>{
   
@@ -15,6 +20,10 @@ function Register() {
       email : e.target.email.value,
       password : e.target.password.value    
     };
+    const userLogin = {
+      email : e.target.email.value,
+      password : e.target.password.value  
+    }
     
     axios.post('http://127.0.0.1:8000/api/register', newUser).then( (res) => {
     
@@ -25,16 +34,26 @@ function Register() {
       }
     
       if(res.data.status === 200){
-        document.getElementById('message').innerText = res.data.message  
+        document.getElementById('message').innerText = res.data.message
+        axios.post('http://127.0.0.1:8000/api/login', userLogin).then( (res) => {
+          const userPayload = res.data.user;
+          const tokenPayload = res.data.token;
+          dispatch({
+            type: "auth/login",
+            payload: {userPayload, tokenPayload}
+          })
+        })
         navigate('/')
       }
     })
-
   }
   
+  useEffect( () => {
+    if (auth.user) {
+      navigate('/')
+    }    
+  }, []);
   
-  
-
   return (
     <div className="container mt-5" >
       <div className="row" > 
@@ -60,9 +79,8 @@ function Register() {
                 <label htmlFor="disabledTextInput" className="form-label">Mot de passe</label>
                 <input type="password" autoComplete="on" id="registerPassword" className="form-control" name="password" />
                 <span className='text-danger' id='error_password'> </span>
-                
-                <button type="submit" className="btn btn-primary btn-lg mt-3 mb-3">S'inscrire</button>
                 </div>
+                <button type="submit" className="btn btn-primary btn-lg mt-3 mb-3">S'inscrire</button>
             </fieldset>
           </form>
         </div>
