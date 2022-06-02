@@ -28,8 +28,8 @@ function IndexCar() {
       })
       
       swalWithBootstrapButtons.fire({
-        title: 'êtes vous sûr ?',
-        text: "Action irrévocable",
+        title: 'Etes vous sûr ?',
+        text: "Action irréversible",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonText: 'Oui',

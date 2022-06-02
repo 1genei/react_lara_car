@@ -1,10 +1,12 @@
 import React from "react";
 import {Link} from "react-router-dom";
+import {useNavigate} from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 
 const Nav = () => {
 
+  const navigate = useNavigate();
   const auth  = useSelector( (state) =>state.auth);
   const dispatch  = useDispatch();
 
@@ -12,6 +14,7 @@ const Nav = () => {
     dispatch({
       type: "auth/logout"
     })
+    navigate('/')
   }
 
   return (
