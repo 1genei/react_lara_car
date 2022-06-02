@@ -2,6 +2,7 @@ import Nav from '../layouts/nav';
 import axios from 'axios';
 import {useEffect, useState} from 'react';
 import { Link } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 
 import Swal from 'sweetalert2';
 import { useSelector } from 'react-redux';
@@ -10,58 +11,64 @@ import { useSelector } from 'react-redux';
 function IndexCar() {
     const [cars, setCars] = useState([]);
     
+    const navigate = useNavigate();
     const auth  = useSelector( (state) =>state.auth);
 
     function deleteHandle(e){
-
       e.preventDefault();
+      const car_userID = e.target.id
+      if (auth.user?.id != car_userID) {
+        document.getElementById('allowed').innerText = "Permission refusée"
+        navigate('/login')
+      }
+      else {
+        // On réccupère l'élément sur lequel on clique
+        const ligne = e.currentTarget;
 
-      // On réccupère l'élément sur lequel on clique
-      const ligne = e.currentTarget;
-
-      const swalWithBootstrapButtons = Swal.mixin({
-        customClass: {
-          confirmButton: 'btn btn-success',
-          cancelButton: 'btn btn-danger'
-        }, 
-        buttonsStyling: false
-      })
-      
-      swalWithBootstrapButtons.fire({
-        title: 'Etes vous sûr ?',
-        text: "Action irréversible",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Oui',
-        cancelButtonText: 'Non',
-        reverseButtons: true
-      }).then((result) => {
-        if (result.isConfirmed) {
-
-          axios.delete('http://127.0.0.1:8000/api/delete/'+e.target.id).then( (res) => {
-
-            if(res.data.status === 200){
-                
-              swalWithBootstrapButtons.fire(
-                'Supprimé!',
-                '',
-                'success'
-              )
-              ligne.closest('tr').remove();
-                
-            }
+        const swalWithBootstrapButtons = Swal.mixin({
+          customClass: {
+            confirmButton: 'btn btn-success',
+            cancelButton: 'btn btn-danger'
+          }, 
+          buttonsStyling: false
         })
+        
+        swalWithBootstrapButtons.fire({
+          title: 'Etes vous sûr ?',
+          text: "Action irréversible",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Oui',
+          cancelButtonText: 'Non',
+          reverseButtons: true
+        }).then((result) => {
+          if (result.isConfirmed) {
 
-        } else if (
-          result.dismiss === Swal.DismissReason.cancel
-        ) {
-          swalWithBootstrapButtons.fire(
-            'Annulé',
-            'Non supprimé',
-            'error'
-          )
-        }
-      })
+            axios.delete('http://127.0.0.1:8000/api/delete/'+e.target.id).then( (res) => {
+
+              if(res.data.status === 200){
+                  
+                swalWithBootstrapButtons.fire(
+                  'Supprimé!',
+                  '',
+                  'success'
+                )
+                ligne.closest('tr').remove();
+                  
+              }
+          })
+
+          } else if (
+            result.dismiss === Swal.DismissReason.cancel
+          ) {
+            swalWithBootstrapButtons.fire(
+              'Annulé',
+              'Non supprimé',
+              'error'
+            )
+          }
+        })
+      }
     }
 
     useEffect( () => {
@@ -87,7 +94,7 @@ function IndexCar() {
        
         <h1 className="mt-2">Liste des véhicules</h1>
       
-        
+        <span id='allowed' className='text-warning fw-bold'> </span>
       
         <table className="table mt-3">
             <thead>
@@ -109,8 +116,8 @@ function IndexCar() {
                   <td>{car.modele}</td>
                   <td>{car.type}</td>
                   <td>{car.kilometrage}</td>
-                  {auth.user ? <td><Link type="button" to={"/edit-car/"+car.id} className="btn btn-success btn-sm">Modifier</Link></td> : <td></td>}
-                  {auth.user ? <td><button type="button" id={car.id} onClick={deleteHandle} className="btn btn-danger btn-sm">Supprimer</button></td> : <td></td>}
+                  {auth.user?.id === car.user_id ? <td><Link type="button" to={auth.user?.id === car.user_id ? "/edit-car/"+car.id : "/login"} className="btn btn-success btn-sm">Modifier</Link></td> : <td></td>}
+                  {auth.user?.id === car.user_id ? <td><button type="button" id={car.user_id} onClick={deleteHandle} className="btn btn-danger btn-sm">Supprimer</button></td> : <td></td>}
                 </tr>
               ))
             }

@@ -14,7 +14,6 @@ function EditCar() {
   
   
   const [car, setCar] = useState([]);
-
   
   useEffect( () => {
   
@@ -23,6 +22,7 @@ function EditCar() {
          setCar(
           {
             marque : res.data.car.brand ,
+            user_id : res.data.car.user_id,
             modele : res.data.car.modele,
             type : res.data.car.type,
             kilometrage : res.data.car.kilometrage
@@ -35,11 +35,11 @@ function EditCar() {
         // }  
       }
     });
-    
   },[]);
   
+  const owner = car.user_id;
+
   const handleSubmit = (e) =>{
-  
     e.preventDefault();
     const car = {
       brand : e.target.marque.value ,
@@ -47,31 +47,33 @@ function EditCar() {
       type : e.target.type.value,
       kilometrage : e.target.kilometrage.value
     };
-    
-    axios.put('http://127.0.0.1:8000/api/car/'+param.id, car).then( (res) => {
-      if(res.data.status === 400){
-        document.getElementById('error_marque').innerText = res.data.error.brand ? res.data.error.brand : ""   
-        document.getElementById('error_modele').innerText = res.data.error.modele ? res.data.error.modele : ""   
-        document.getElementById('error_type').innerText = res.data.error.type ? res.data.error.type : ""   
-        document.getElementById('error_kilometrage').innerText = res.data.error.kilometrage ? res.data.error.kilometrage : ""   
-      }
-      if(res.data.status === 200){
-        document.getElementById('message').innerText = res.data.message
-        navigate('/')
-      }
-    })
-    
+    if (owner !== auth.user?.id) {
+      document.getElementById('allowed').innerText = "Permission refusée"+
+      navigate('/login')
+    }
+    else {
+      axios.put('http://127.0.0.1:8000/api/car/'+param.id, car).then( (res) => {
+        if(res.data.status === 400){
+          document.getElementById('error_marque').innerText = res.data.error.brand ? res.data.error.brand : ""   
+          document.getElementById('error_modele').innerText = res.data.error.modele ? res.data.error.modele : ""   
+          document.getElementById('error_type').innerText = res.data.error.type ? res.data.error.type : ""   
+          document.getElementById('error_kilometrage').innerText = res.data.error.kilometrage ? res.data.error.kilometrage : ""   
+        }
+        if(res.data.status === 200){
+          document.getElementById('message').innerText = res.data.message
+          navigate('/')
+        }
+      })
+    }
   
   }
 
   const handleInput = (e) => {
 
-   
     const {name, value} = e.target;
     setCar({...car, [name]:value});
 
   }
-
 
   return (
     <div className="container mt-5" >
@@ -85,6 +87,7 @@ function EditCar() {
                 <fieldset>
                     <legend>Modifier la voiture </legend>
                     <span id='message' className='text-success'> </span>
+                    <span id='allowed' className='text-warning fw-bold'> </span>
                     <div className="mb-3">
                     <label htmlFor="disabledTextInput" className="form-label">Marque</label>
                     <input type="text" id="disabledTextInput" className="form-control" value={car.marque ?? ''} onChange={handleInput} name="marque" />
@@ -111,8 +114,6 @@ function EditCar() {
                     <input type="number" step="any" id="disabledTextInput" className="form-control"  value={car.kilometrage ?? ''} onChange={handleInput} name="kilometrage" />
                     <span className='text-danger' id='error_kilometrage'> </span>
                     </div>
-                    
-                   
                     <button type="submit" className="btn btn-primary btn-lg mt-5 mb-5">Modifier</button>
                 </fieldset>
             </form>

@@ -20,21 +20,25 @@ function AddCar() {
       type : e.target.type.value,
       kilometrage : e.target.kilometrage.value
     };
-    
-    axios.post('http://127.0.0.1:8000/api/car', car).then( (res) => {
-      if(res.data.status === 400){
-          document.getElementById('error_marque').innerText = res.data.error.brand ? res.data.error.brand : ""   
-          document.getElementById('error_modele').innerText = res.data.error.modele ? res.data.error.modele : ""   
-          document.getElementById('error_type').innerText = res.data.error.type ? res.data.error.type : ""   
-          document.getElementById('error_kilometrage').innerText = res.data.error.kilometrage ? res.data.error.kilometrage : ""   
+    if (!auth.user) {
+      document.getElementById('allowed').innerText = "Permission refusée"
+      navigate('/login')
+    }
+    else {
+      axios.post('http://127.0.0.1:8000/api/car', car).then( (res) => {
+        if(res.data.status === 400){
+            document.getElementById('error_marque').innerText = res.data.error.brand ? res.data.error.brand : ""   
+            document.getElementById('error_modele').innerText = res.data.error.modele ? res.data.error.modele : ""   
+            document.getElementById('error_type').innerText = res.data.error.type ? res.data.error.type : ""   
+            document.getElementById('error_kilometrage').innerText = res.data.error.kilometrage ? res.data.error.kilometrage : ""   
+          }
+      
+        if(res.data.status === 200){
+          document.getElementById('message').innerText = res.data.message
+          navigate('/')
         }
-    
-      if(res.data.status === 200){
-        document.getElementById('message').innerText = res.data.message
-        navigate('/')
-      }
-    })
-
+      })
+    }
   }
 
   useEffect( () => {
@@ -54,6 +58,7 @@ function AddCar() {
                 <fieldset>
                     <legend>Ajouter une voiture</legend>
                     <span id='message' className='text-success'> </span>
+                    <span id='allowed' className='text-warning fw-bold'> </span>
                     <div className="mb-3">
                     <label htmlFor="disabledTextInput" className="form-label">Marque</label>
                     <input type="text" id="disabledTextInput" className="form-control" name="marque" />
