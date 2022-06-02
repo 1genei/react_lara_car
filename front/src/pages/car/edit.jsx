@@ -30,9 +30,9 @@ function EditCar() {
          );
         //  setCar(res.data.car); //ne marche pas car brand != marque
         
-        if (auth.user?.id != res.data.car.user_id) {
-          navigate('/')
-        }  
+        // if (auth.user?.id != res.data.car.user_id) {
+        //   navigate('/')
+        // }  
       }
     });
     
@@ -71,12 +71,6 @@ function EditCar() {
     setCar({...car, [name]:value});
 
   }
-
-  useEffect( () => {
-    if (!auth.user) {
-      navigate('/login')
-    }    
-  }, []);
 
 
   return (
