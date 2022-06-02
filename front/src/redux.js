@@ -33,10 +33,7 @@ export const store = configureStore({
 });
 
 
-export const getToken = (state, action) => {}
-
-
-export const getUser = (state, action) => {}
+export const { login, logout } = authSlice.actions;
 
 
 export default authSlice;

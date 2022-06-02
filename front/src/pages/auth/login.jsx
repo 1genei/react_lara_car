@@ -2,6 +2,7 @@ import Nav from '../layouts/nav'
 import axios from 'axios';
 import {useNavigate} from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import { login } from '../../redux';
 
 
 function Login() {
@@ -30,10 +31,7 @@ function Login() {
         const userPayload = res.data.user;
         const tokenPayload = res.data.token;
         
-        dispatch({
-            type: "auth/login",
-            payload: {userPayload, tokenPayload}
-        })
+        dispatch(login({userPayload, tokenPayload}));
         navigate('/')
       }
     })
