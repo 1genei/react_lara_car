@@ -4,11 +4,15 @@ import {useNavigate} from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { login } from '../../redux';
 
+import {useEffect} from 'react';
+import { useSelector } from 'react-redux';
+
 
 function Login() {
 
   const navigate = useNavigate();
   const dispatch  = useDispatch();
+  const auth  = useSelector( (state) =>state.auth);
   
   const handleSubmit = (e) =>{
   
@@ -25,9 +29,7 @@ function Login() {
         document.getElementById('loginPassword').value = ""
       }
       if(res.data.status === 200) {
-      
-        
-        
+
         const userPayload = res.data.user;
         const tokenPayload = res.data.token;
         
@@ -36,6 +38,12 @@ function Login() {
       }
     })
   }
+
+  useEffect( () => {
+    if (auth.user) {
+      navigate('/')
+    }    
+  }, []);
 
   return (
     <div className="container mt-5" >

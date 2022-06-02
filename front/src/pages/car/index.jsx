@@ -11,8 +11,6 @@ function IndexCar() {
     const [cars, setCars] = useState([]);
     
     const auth  = useSelector( (state) =>state.auth);
-    
-    console.log(auth);
 
     function deleteHandle(e){
 
@@ -30,8 +28,8 @@ function IndexCar() {
       })
       
       swalWithBootstrapButtons.fire({
-        title: 'êtes vous sûr ?',
-        text: "Action irrévocable",
+        title: 'Etes vous sûr ?',
+        text: "Action irréversible",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonText: 'Oui',
@@ -84,11 +82,10 @@ function IndexCar() {
         <div className="col-12" style={{border:'2px solid grey'}}>
         
         <Nav/>
-        
+      
+        {auth.user ? <h4 className="fw-normal mt-3">Bienvenue {auth?.user?.name}</h4> : ""}   
        
-            <h2> {auth.user ? `Bienvenue ${auth?.user?.name}`   : ""}   </h2>
-       
-        <h2 className="h2 mt-3">Liste des véhicules</h2>
+        <h1 className="mt-2">Liste des véhicules</h1>
       
         
       
@@ -112,8 +109,8 @@ function IndexCar() {
                   <td>{car.modele}</td>
                   <td>{car.type}</td>
                   <td>{car.kilometrage}</td>
-                  <td><Link type="button" to={"/edit-car/"+car.id} className="btn btn-success btn-sm">Modifier</Link></td>
-                  <td><button type="button" id={car.id} onClick={deleteHandle} className="btn btn-danger btn-sm">Supprimer</button></td>
+                  {auth.user ? <td><Link type="button" to={"/edit-car/"+car.id} className="btn btn-success btn-sm">Modifier</Link></td> : <td></td>}
+                  {auth.user ? <td><button type="button" id={car.id} onClick={deleteHandle} className="btn btn-danger btn-sm">Supprimer</button></td> : <td></td>}
                 </tr>
               ))
             }
