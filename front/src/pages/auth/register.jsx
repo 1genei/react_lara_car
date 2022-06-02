@@ -46,7 +46,7 @@ function Register() {
                 <legend>Inscription</legend>
                 <span id='message' className='text-danger'> </span>
                 <div className="mb-3">
-                <label htmlFor="disabledTextInput" className="form-label">Nom de famille</label>
+                <label htmlFor="disabledTextInput" className="form-label">Nom d'utilisateur</label>
                 <input type="text" id="registerName" className="form-control" name="name" />
                 <span className='text-danger' id='error_name'> </span>
                 </div>

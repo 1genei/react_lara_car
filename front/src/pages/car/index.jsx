@@ -11,6 +11,8 @@ function IndexCar() {
     const [cars, setCars] = useState([]);
     
     const auth  = useSelector( (state) =>state.auth);
+    
+    console.log(auth);
 
     function deleteHandle(e){
 
@@ -83,9 +85,9 @@ function IndexCar() {
         
         <Nav/>
         
-        <p>
-            <h2>Bienvenue </h2>
-        </p>
+       
+            <h2> {auth.user ? `Bienvenue ${auth?.user?.name}`   : ""}   </h2>
+       
         <h2 className="h2 mt-3">Liste des véhicules</h2>
       
         
