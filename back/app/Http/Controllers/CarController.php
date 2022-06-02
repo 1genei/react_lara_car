@@ -36,6 +36,7 @@ class CarController extends Controller
         
         $car = Car::create([
             "brand" => $request->input('brand'),
+            "user_id" => $request->input('user_id'),
             "modele" => $request->input('modele'),
             "type" => $request->input('type'),
             "kilometrage" => $request->input('kilometrage'),

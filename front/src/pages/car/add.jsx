@@ -15,6 +15,7 @@ function AddCar() {
     e.preventDefault();
     const car = {
       brand : e.target.marque.value ,
+      user_id: auth.user?.id,
       modele : e.target.modele.value,
       type : e.target.type.value,
       kilometrage : e.target.kilometrage.value
