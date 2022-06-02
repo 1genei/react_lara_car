@@ -48,11 +48,7 @@ function Register() {
     })
   }
   
-  useEffect( () => {
-    if (auth.user) {
-      navigate('/')
-    }    
-  }, []);
+  
   
   return (
     <div className="container mt-5" >

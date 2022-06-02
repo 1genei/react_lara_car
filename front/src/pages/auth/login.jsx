@@ -33,17 +33,16 @@ function Login() {
         const userPayload = res.data.user;
         const tokenPayload = res.data.token;
         
+        localStorage.setItem("token", tokenPayload)
+        localStorage.setItem("user",  JSON.stringify(userPayload) )
+        
         dispatch(login({userPayload, tokenPayload}));
         navigate('/')
       }
     })
   }
 
-  useEffect( () => {
-    if (auth.user) {
-      navigate('/')
-    }    
-  }, []);
+  
 
   return (
     <div className="container mt-5" >

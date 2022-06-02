@@ -29,9 +29,10 @@ function EditCar() {
           }
          );
         //  setCar(res.data.car); //ne marche pas car brand != marque
-        if (auth.user?.id !== res.data.car.user_id) {
-          navigate('/login')
-        }  
+        
+        // if (auth.user?.id != res.data.car.user_id) {
+        //   navigate('/')
+        // }  
       }
     });
   },[]);
