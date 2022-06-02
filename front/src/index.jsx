@@ -7,20 +7,27 @@ import AddCar from './pages/car/add';
 import EditCar from './pages/car/edit';
 import Login from './pages/auth/login';
 import Register from './pages/auth/register';
+import {Provider} from 'react-redux';
+import { store } from './redux';
+
 
   
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render( <React.StrictMode >
-    <BrowserRouter>
-        <Routes>
-          <Route exact path='/' element={<App/>} />
-          <Route path='/add-car' element={<AddCar/>} />
-          <Route path='/edit-car/:id' element={<EditCar/>} />
-          <Route path='/login' element={<Login/>} />
-          <Route path='/register' element={<Register/>} />
-      </Routes>
-    </BrowserRouter>
+      <Provider store={store}>
+      
+          <BrowserRouter>
+              <Routes>
+                <Route exact path='/' element={<App/>} />
+                <Route path='/add-car' element={<AddCar/>} />
+                <Route path='/edit-car/:id' element={<EditCar/>} />
+                <Route path='/login' element={<Login/>} />
+                <Route path='/register' element={<Register/>} />
+            </Routes>
+          </BrowserRouter>
+      </Provider>
+    
     </React.StrictMode>
 );
 

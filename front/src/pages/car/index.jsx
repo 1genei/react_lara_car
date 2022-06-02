@@ -4,10 +4,13 @@ import {useEffect, useState} from 'react';
 import { Link } from 'react-router-dom';
 
 import Swal from 'sweetalert2';
+import { useSelector } from 'react-redux';
 
 
 function IndexCar() {
     const [cars, setCars] = useState([]);
+    
+    const auth  = useSelector( (state) =>state.auth);
 
     function deleteHandle(e){
 
@@ -80,6 +83,9 @@ function IndexCar() {
         
         <Nav/>
         
+        <p>
+            <h2>Bienvenue </h2>
+        </p>
         <h2 className="h2 mt-3">Liste des véhicules</h2>
       
         
