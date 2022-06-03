@@ -11,7 +11,6 @@ import { useSelector } from 'react-redux';
 function IndexCar() {
     const [cars, setCars] = useState([]);
     
-    const navigate = useNavigate();
     const auth  = useSelector( (state) =>state.auth);
 
     function deleteHandle(e){
@@ -73,11 +72,11 @@ function IndexCar() {
 
     useEffect( () => {
     
-        axios.get('http://127.0.0.1:8000/api/cars').then( (res) => {
-            
-            setCars(res.data.cars);
-        
-        })
+      axios.get('http://127.0.0.1:8000/api/cars').then( (res) => {
+          
+          setCars(res.data.cars);
+      
+      })
         
     }, []);
   
@@ -93,8 +92,6 @@ function IndexCar() {
         {auth.user ? <h4 className="fw-normal mt-3">Bienvenue {auth?.user?.name}</h4> : ""}   
        
         <h1 className="mt-2">Liste des véhicules</h1>
-      
-        <span id='allowed' className='text-warning fw-bold'> </span>
       
         <table className="table mt-3">
             <thead>
@@ -117,7 +114,7 @@ function IndexCar() {
                   <td>{car.type}</td>
                   <td>{car.kilometrage}</td>
                   {auth.user?.id === car.user_id ? <td><Link type="button" to={auth.user?.id === car.user_id ? "/edit-car/"+car.id : "/login"} className="btn btn-success btn-sm">Modifier</Link></td> : <td></td>}
-                  {auth.user?.id === car.user_id ? <td><button type="button" id={car.user_id} onClick={deleteHandle} className="btn btn-danger btn-sm">Supprimer</button></td> : <td></td>}
+                  {auth.user?.id === car.user_id ? <td><button type="button" id={car.id} onClick={deleteHandle} className="btn btn-danger btn-sm">Supprimer</button></td> : <td></td>}
                 </tr>
               ))
             }
