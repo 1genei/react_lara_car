@@ -28,11 +28,7 @@ function EditCar() {
             kilometrage : res.data.car.kilometrage
           }
          );
-        //  setCar(res.data.car); //ne marche pas car brand != marque
-        
-        // if (auth.user?.id != res.data.car.user_id) {
-        //   navigate('/')
-        // }  
+     
       }
     });
   },[]);

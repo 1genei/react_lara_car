@@ -5,7 +5,7 @@ import { Navigate } from "react-router-dom";
 
 
 
-export const NotProtectedRoute = ({ children }) => {
+export const ProtectedRoute = ({ children }) => {
 
     const auth = useSelector((state) => state.auth)
 

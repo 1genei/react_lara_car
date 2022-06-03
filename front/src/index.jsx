@@ -9,8 +9,8 @@ import Login from './pages/auth/login';
 import Register from './pages/auth/register';
 import {Provider} from 'react-redux';
 import { store } from './redux';
-import { ProtectedRoute } from './services/auth/protectedRoute';
-import { NotProtectedRoute} from './services/auth/notProtectedRoute';
+import { ProtectedRoute } from './middelware/protectedRoute';
+import { PrivateRoute } from './middelware/privateRoute';
 
 
   
@@ -22,10 +22,10 @@ root.render( <React.StrictMode >
           <BrowserRouter>
               <Routes>
                 <Route exact path='/' element={<App/>} />
-                <Route path='/add-car' element={<ProtectedRoute><AddCar/></ProtectedRoute> } />
-                <Route path='/edit-car/:id' element={<ProtectedRoute><EditCar/></ProtectedRoute> } />
-                <Route path='/login' element={<NotProtectedRoute><Login/></NotProtectedRoute>} />
-                <Route path='/register' element={<NotProtectedRoute><Register/></NotProtectedRoute>} />
+                <Route path='/add-car' element={<PrivateRoute><AddCar/></PrivateRoute> } />
+                <Route path='/edit-car/:id' element={<PrivateRoute><EditCar/></PrivateRoute> } />
+                <Route path='/login' element={<ProtectedRoute><Login/></ProtectedRoute>} />
+                <Route path='/register' element={<ProtectedRoute><Register/></ProtectedRoute>} />
             </Routes>
           </BrowserRouter>
       </Provider>

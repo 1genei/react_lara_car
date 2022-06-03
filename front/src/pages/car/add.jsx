@@ -34,18 +34,13 @@ function AddCar() {
           }
       
         if(res.data.status === 200){
-          document.getElementById('message').innerText = res.data.message
           navigate('/')
         }
       })
     }
   }
 
-  useEffect( () => {
-    if (!auth.user) {
-      navigate('/login')
-    }    
-  }, []);
+
 
   return (
     <div className="container mt-5"> 

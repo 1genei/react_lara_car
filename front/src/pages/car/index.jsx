@@ -17,59 +17,59 @@ function IndexCar() {
     function deleteHandle(e){
       e.preventDefault();
       const car_userID = e.target.id
-      if (auth.user?.id != car_userID) {
-        document.getElementById('allowed').innerText = "Permission refusée"
-        navigate('/login')
-      }
-      else {
-        // On réccupère l'élément sur lequel on clique
-        const ligne = e.currentTarget;
+   
+      // On réccupère l'élément sur lequel on clique
+      const ligne = e.currentTarget;
 
-        const swalWithBootstrapButtons = Swal.mixin({
-          customClass: {
-            confirmButton: 'btn btn-success',
-            cancelButton: 'btn btn-danger'
-          }, 
-          buttonsStyling: false
+      const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+          confirmButton: 'btn btn-success',
+          cancelButton: 'btn btn-danger'
+        }, 
+        buttonsStyling: false
+      })
+      
+      swalWithBootstrapButtons.fire({
+        title: 'Etes vous sûr ?',
+        text: "Action irréversible",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Oui',
+        cancelButtonText: 'Non',
+        reverseButtons: true
+      }).then((result) => {
+        if (result.isConfirmed) {
+
+          axios.delete('http://127.0.0.1:8000/api/delete/'+e.target.id).then( (res) => {
+
+            if(res.data.status === 200){
+                
+              swalWithBootstrapButtons.fire(
+                'Supprimé!',
+                '',
+                'success'
+              )
+              ligne.closest('tr').remove();
+                
+            }
         })
-        
-        swalWithBootstrapButtons.fire({
-          title: 'Etes vous sûr ?',
-          text: "Action irréversible",
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonText: 'Oui',
-          cancelButtonText: 'Non',
-          reverseButtons: true
-        }).then((result) => {
-          if (result.isConfirmed) {
 
-            axios.delete('http://127.0.0.1:8000/api/delete/'+e.target.id).then( (res) => {
-
-              if(res.data.status === 200){
-                  
-                swalWithBootstrapButtons.fire(
-                  'Supprimé!',
-                  '',
-                  'success'
-                )
-                ligne.closest('tr').remove();
-                  
-              }
-          })
-
-          } else if (
-            result.dismiss === Swal.DismissReason.cancel
-          ) {
-            swalWithBootstrapButtons.fire(
-              'Annulé',
-              'Non supprimé',
-              'error'
-            )
-          }
-        })
-      }
+        } else if (
+          result.dismiss === Swal.DismissReason.cancel
+        ) {
+          swalWithBootstrapButtons.fire(
+            'Annulé',
+            'Non supprimé',
+            'error'
+          )
+        }
+      })
+  
+  
+  
     }
+    
+  
 
     useEffect( () => {
     
