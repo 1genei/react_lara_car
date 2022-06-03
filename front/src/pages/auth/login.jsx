@@ -1,18 +1,17 @@
 import Nav from '../layouts/nav'
-import axios from 'axios';
-import {useNavigate} from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 import { login } from '../../redux';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import HandleLogin from '../../services/auth/loginService';
 
-import {useEffect} from 'react';
-import { useSelector } from 'react-redux';
+
 
 
 function Login() {
 
   const navigate = useNavigate();
-  const dispatch  = useDispatch();
-  const auth  = useSelector( (state) =>state.auth);
+  const dispatch = useDispatch();
+
   
   const handleSubmit = (e) =>{
   
@@ -22,23 +21,22 @@ function Login() {
       password : e.target.password.value
     };
     
-    axios.post('http://127.0.0.1:8000/api/login', user).then( (res) => {
-      if(res.data.status === 401){
-        document.getElementById('message').innerText = res.data.message
-        // document.getElementById('loginMail').value = ""
-        document.getElementById('loginPassword').value = ""
+    
+    HandleLogin(user).then((res)=>{
+    
+      if (res.status === 401) {
+          document.getElementById('message').innerText = res.message
+          document.getElementById('loginPassword').value = ""
       }
-      if(res.data.status === 200) {
-
-        const userPayload = res.data.user;
-        const tokenPayload = res.data.token;
-        
-        localStorage.setItem("token", tokenPayload)
-        localStorage.setItem("user",  JSON.stringify(userPayload) )
-        
-        dispatch(login({userPayload, tokenPayload}));
+      
+      if (res.status === 200) {
+        const userPayload = res?.user;
+        const tokenPayload = res?.token;
+        dispatch(login({ userPayload, tokenPayload }));
+       
         navigate('/')
       }
+      
     })
   }
 
