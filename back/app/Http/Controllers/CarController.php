@@ -5,17 +5,31 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Car;
 use Illuminate\Support\Facades\Validator;
+use Auth;
 
 class CarController extends Controller
 {
     //
     public function index(){
         
-        $cars = Car::all();
+    
+        $user = Auth::user();
         
-        return Response()->json([
-            'cars'=> $cars,            
-        ]);
+
+        if($user->tokenCan('get-cars')){
+            $cars = Car::all();
+            return Response()->json([
+                'cars'=> $cars,            
+            ]);
+        
+        }else{
+        
+            return Response()->json([
+                'message'=> "Accès réfusé", 
+                'status' => 401
+            ], 403);
+        }
+        
     }
     
     public function store(Request $request){

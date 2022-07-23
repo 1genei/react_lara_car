@@ -21,7 +21,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 //Routes pour voir/ajouter/modifier (+ supprimer) les voitures
-Route::get('cars', [CarController::class, 'index']);
+Route::get('cars', [CarController::class, 'index'])->middleware(['auth:sanctum']);
 Route::get('car/{car_id}', [CarController::class, 'show']);
 Route::post('car', [CarController::class, 'store']);
 Route::put('car/{car_id}', [CarController::class, 'update']);
@@ -30,6 +30,7 @@ Route::delete('delete/{car_id}', [CarController::class, 'delete']);
 //Routes pour login/register
 Route::post('register', [UserController::class, 'register']);
 Route::post('login', [UserController::class, 'login']);
+Route::post('logout', [UserController::class, 'logout']);
 
 
 Route::get('users/{id}', function ($id) {

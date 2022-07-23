@@ -72,11 +72,21 @@ function IndexCar() {
 
     useEffect( () => {
     
-      axios.get('http://127.0.0.1:8000/api/cars').then( (res) => {
+      const config = {
+        headers: { Authorization: `Bearer ${auth?.token}` }
+      };
+      
+   
+      // axios.defaults.headers.common = {'Authorization': `Bearer ${auth.token}`}
+      
+      axios.get('http://127.0.0.1:8000/api/cars',config).then( (res) => {
           
           setCars(res.data.cars);
       
-      })
+      }).catch( (err) => {
+      
+        console.log(err);
+      } ) 
         
     }, []);
   
