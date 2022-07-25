@@ -67,7 +67,7 @@ class UserController extends Controller
             "token" => $token,
             // "cookie" => $cookie,
             "user" => $user
-        ])->withCookie("jwt=150%7CUr3seGhOVERXGSDfd8s1EcfOp5ezn61GvS1dNe3Z; expires=Sat, 23-Jul-2022 15:47:27 GMT; Max-Age=86400; path=/;httponly; samesite=lax");
+        ])->withCookie($cookie);
         
         
         

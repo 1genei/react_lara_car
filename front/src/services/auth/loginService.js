@@ -12,7 +12,7 @@ const HandleLogin = async(user) => {
 
 
 
-    return axios.post('http://127.0.0.1:8000/api/login', user).then((res) => {
+    return axios.post('http://127.0.0.1:8000/api/login', user, { withCredentials: true }).then((res) => {
 
 
         if (res.data.status === 200) {
